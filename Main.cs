@@ -1,10 +1,6 @@
 ﻿using MelonLoader;
 using UnityEngine;
-using BoneLib.BoneMenu.Elements;
 using BoneLib.BoneMenu;
-using BoneLib;
-using BoneMenuStuff;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace VignetteRemover
 {
