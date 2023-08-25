@@ -3,7 +3,6 @@ using MelonLoader;
 using UnityEngine;
 using BoneLib.BoneMenu;
 using BoneLib.BoneMenu.Elements;
-using SLZ.Rig;
 
 namespace VignetteRemover
 {
@@ -18,10 +17,8 @@ namespace VignetteRemover
         
         public static bool Enabled;
         private static bool _scan;
-        private Remover _remover;
         public override void OnInitializeMelon()
         {
-            _remover = new Remover();
             Hooking.OnLevelInitialized += OnLevelLoad;
             Hooking.OnLevelUnloaded += OnLevelUnload;
             SetupBonemenu();
@@ -34,14 +31,14 @@ namespace VignetteRemover
         {
             _scan = false;
         }
-        private void Update()
+        public override void OnUpdate()
         {
             if (_scan)
             {
                 GameObject targetObject = GameObject.Find("RigManager (Blank)");
                 if (targetObject != null)
                 {
-                    _remover.AutoDisable();
+                    Remover.AutoDisable();
                 }
             }
         }
@@ -49,8 +46,8 @@ namespace VignetteRemover
         {
             MenuCategory menuCategory = MenuManager.CreateCategory("Vignette Remover", Color.red);
             menuCategory.CreateBoolElement("Toggle Autodisable", Color.white, Enabled);
-            menuCategory.CreateFunctionElement("Enable Vignette", Color.green, _remover.Enable);
-            menuCategory.CreateFunctionElement("Disable Vignette", Color.red, _remover.Disable);
+            menuCategory.CreateFunctionElement("Enable Vignette", Color.green, Remover.Enable);
+            menuCategory.CreateFunctionElement("Disable Vignette", Color.red, Remover.Disable);
         }
     }
 }

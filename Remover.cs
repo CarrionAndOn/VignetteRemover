@@ -5,7 +5,7 @@ namespace VignetteRemover
     public class Remover
     {
         private static GameObject _vignetterObj;
-        public void AutoDisable()
+        public static void AutoDisable()
         {
             GameObject gameObject = GameObject.Find("Vignetter (Clone)");
             _vignetterObj = gameObject;
@@ -14,12 +14,12 @@ namespace VignetteRemover
                 _vignetterObj.SetActive(false);
             }
         }
-        public void Enable()
+        public static void Enable()
         {
             _vignetterObj.SetActive(true);
         }
 
-        public void Disable()
+        public static void Disable()
         {
             _vignetterObj.SetActive(false);
         }
