@@ -41,6 +41,9 @@
     <Compile Include="Remover.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>References\Assembly-CSharp.dll</HintPath>
+    </Reference>
     <Reference Include="BoneLib">
       <HintPath>References\BoneLib.dll</HintPath>
     </Reference>

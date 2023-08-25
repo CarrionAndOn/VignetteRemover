@@ -3,6 +3,7 @@ using MelonLoader;
 using UnityEngine;
 using BoneLib.BoneMenu;
 using BoneLib.BoneMenu.Elements;
+using SLZ.Rig;
 
 namespace VignetteRemover
 {
@@ -15,36 +16,41 @@ namespace VignetteRemover
         internal const string Version = "1.0.0";
         internal const string DownloadLink = "null";
         
-        private static bool _enabled = false;
-        private static GameObject _vignetteObj;
+        public static bool Enabled;
+        private static bool _scan;
+        private Remover _remover;
         public override void OnInitializeMelon()
         {
+            _remover = new Remover();
             Hooking.OnLevelInitialized += OnLevelLoad;
+            Hooking.OnLevelUnloaded += OnLevelUnload;
             SetupBonemenu();
         }
-        private static void OnLevelLoad(LevelInfo levelInfo)
+        private void OnLevelLoad(LevelInfo levelInfo)
         {
-            _vignetteObj = GameObject.Find("Vignetter");
-            if (_enabled)
+            _scan = true;
+        }
+        private void OnLevelUnload()
+        {
+            _scan = false;
+        }
+        private void Update()
+        {
+            if (_scan)
             {
-                _vignetteObj.SetActive(false);
+                RigManager targetObject = BoneLib.Player.rigManager;
+                if (targetObject != null)
+                {
+                    _remover.AutoDisable();
+                }
             }
         }
-        private static void SetupBonemenu()
+        private void SetupBonemenu()
         {
             MenuCategory menuCategory = MenuManager.CreateCategory("Vignette Remover", Color.red);
-            menuCategory.CreateBoolElement("Toggle Autodisable", Color.white, _enabled);
-            menuCategory.CreateFunctionElement("Enable Vignette", Color.green, EnableVignette);
-            menuCategory.CreateFunctionElement("Disable Vignette", Color.red, DisableVignette);
-        }
-        private static void EnableVignette()
-        {
-            Remover.Enable(_vignetteObj);
-        }
-
-        private static void DisableVignette()
-        {
-            Remover.Disable(_vignetteObj);
+            menuCategory.CreateBoolElement("Toggle Autodisable", Color.white, Enabled);
+            menuCategory.CreateFunctionElement("Enable Vignette", Color.green, _remover.Enable);
+            menuCategory.CreateFunctionElement("Disable Vignette", Color.red, _remover.Disable);
         }
     }
 }
