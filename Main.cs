@@ -16,20 +16,18 @@ namespace VignetteRemover
         internal const string DownloadLink = "null";
         
         private static bool _enabled = false;
-        private static Remover _remover;
-        internal static GameObject VignetteObj;
+        private static GameObject _vignetteObj;
         public override void OnInitializeMelon()
         {
-            _remover = new Remover();
             Hooking.OnLevelInitialized += OnLevelLoad;
             SetupBonemenu();
         }
-        private void OnLevelLoad(LevelInfo levelInfo)
+        private static void OnLevelLoad(LevelInfo levelInfo)
         {
-            VignetteObj = GameObject.Find("Vignetter");
+            _vignetteObj = GameObject.Find("Vignetter");
             if (_enabled)
             {
-                VignetteObj.SetActive(false);
+                _vignetteObj.SetActive(false);
             }
         }
         private static void SetupBonemenu()
@@ -41,12 +39,12 @@ namespace VignetteRemover
         }
         private static void EnableVignette()
         {
-            _remover.Enable(VignetteObj);
+            Remover.Enable(_vignetteObj);
         }
 
         private static void DisableVignette()
         {
-            _remover.Disable(VignetteObj);
+            Remover.Disable(_vignetteObj);
         }
     }
 }

@@ -4,14 +4,14 @@ namespace VignetteRemover
 {
     public class Remover
     {
-        public void Enable(GameObject VignetteObj)
+        public static void Enable(GameObject _vignetteObj)
         {
-            VignetteObj.SetActive(true);
+            _vignetteObj.SetActive(true);
         }
 
-        public void Disable(GameObject VignetteObj)
+        public static void Disable(GameObject _vignetteObj)
         {
-            VignetteObj.SetActive(false);
+            _vignetteObj.SetActive(false);
         }
     }
 }
