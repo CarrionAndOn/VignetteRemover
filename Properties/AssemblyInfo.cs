@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using VignetteRemover;
 using MelonLoader;
 
 [assembly: AssemblyTitle(VignetteRemover.Main.Description)]
