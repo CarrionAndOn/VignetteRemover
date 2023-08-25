@@ -38,7 +38,7 @@ namespace VignetteRemover
         {
             if (_scan)
             {
-                RigManager targetObject = BoneLib.Player.rigManager;
+                GameObject targetObject = GameObject.Find("RigManager (Blank)");
                 if (targetObject != null)
                 {
                     _remover.AutoDisable();
