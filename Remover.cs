@@ -7,7 +7,7 @@ namespace VignetteRemover
         private static GameObject _vignetterObj;
         public static void AutoDisable()
         {
-            GameObject gameObject = GameObject.Find("Vignetter (Clone)");
+            GameObject gameObject = GameObject.Find("Vignetter(Clone)");
             _vignetterObj = gameObject;
             if (Main.Enabled)
             {
