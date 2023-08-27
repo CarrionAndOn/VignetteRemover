@@ -1,8 +1,8 @@
-﻿using BoneLib;
-using MelonLoader;
+﻿using MelonLoader;
 using UnityEngine;
 using BoneLib.BoneMenu;
 using BoneLib.BoneMenu.Elements;
+using HarmonyLib;
 
 namespace VignetteRemover
 {
@@ -15,39 +15,31 @@ namespace VignetteRemover
         internal const string Version = "1.0.0";
         internal const string DownloadLink = "null";
         
-        public static bool Enabled;
-        private static bool _scan;
+        public static bool Enabled = false;
+        private static Remover _remover;
         public override void OnInitializeMelon()
         {
-            Hooking.OnLevelInitialized += OnLevelLoad;
-            Hooking.OnLevelUnloaded += OnLevelUnload;
+            _remover = new Remover();
             SetupBonemenu();
         }
-        private void OnLevelLoad(LevelInfo levelInfo)
+        
+        [HarmonyPatch(typeof(Player_Health), "MakeVignette")]
+        public static class VignettePatch
         {
-            _scan = true;
-        }
-        private void OnLevelUnload()
-        {
-            _scan = false;
-        }
-        public override void OnUpdate()
-        {
-            if (_scan)
+            public static void Postfix(Player_Health __instance)
             {
-                GameObject targetObject = GameObject.Find("RigManager (Blank)");
-                if (targetObject != null)
-                {
-                    Remover.AutoDisable();
-                }
+                _remover.AutoDisable();
             }
         }
         private void SetupBonemenu()
         {
             MenuCategory menuCategory = MenuManager.CreateCategory("Vignette Remover", Color.red);
-            menuCategory.CreateBoolElement("Toggle Autodisable", Color.white, Enabled);
-            menuCategory.CreateFunctionElement("Enable Vignette", Color.green, Remover.Enable);
-            menuCategory.CreateFunctionElement("Disable Vignette", Color.red, Remover.Disable);
+            menuCategory.CreateBoolElement("Toggle Autodisable", Color.white, Enabled, delegate(bool value)
+            {
+                Enabled = value;
+            });
+            menuCategory.CreateFunctionElement("Enable Vignette", Color.green, _remover.Enable);
+            menuCategory.CreateFunctionElement("Disable Vignette", Color.red, _remover.Disable);
         }
     }
 }
