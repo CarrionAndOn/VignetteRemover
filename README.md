@@ -1,7 +1,7 @@
-# VignetteRemover
-A BONELAB mod that lets you toggle the damage vignette.
+# Vignette Remover
 
-# Usage
-Once you load into a scene, open it's bonemenu category and hit "cache object". You have to click that every time you load into a NEW level. DON'T click it more than once in a SINGLE level.
+Removes the damage vignette. What else?
 
-Then just click the toggle button lol
+If Auto Disable is enabled, it will automatically disable the vignette when you load into a level.
+
+You can also manually enable/disable it yourself.
