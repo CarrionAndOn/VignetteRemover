@@ -15,10 +15,10 @@ namespace VignetteRemover.Melon
         {
             AutoDisable = new ModPref<bool>(OwnCategory, "AutoDisable", false, "Auto Disable Vignette", "Whether to auto disable the vignette object or not.");
             LoggingMode = new ModPref<LoggingMode>(GlobalCategory, "LoggingMode", global::LoggingMode.NORMAL, "Logging Mode", "The level of logging to use. DEBUG = Everything, NORMAL = Important Only");
-            OwnCategory.SetFilePath(MelonUtils.UserDataDirectory+"/WeatherElectric.cfg");
-            OwnCategory.SaveToFile(false);
             GlobalCategory.SetFilePath(MelonUtils.UserDataDirectory+"/WeatherElectric.cfg");
             GlobalCategory.SaveToFile(false);
+            OwnCategory.SetFilePath(MelonUtils.UserDataDirectory+"/WeatherElectric.cfg");
+            OwnCategory.SaveToFile(false);
             ModConsole.Msg("Finished preferences setup for MODNAMEHERE", global::LoggingMode.DEBUG);
         }
     }
