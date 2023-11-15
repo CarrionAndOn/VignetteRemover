@@ -23,7 +23,7 @@ namespace VignetteRemover
         {
             ModConsole.Setup(LoggerInstance);
             Preferences.Setup();
-            _enabled = Preferences.AutoDisable;
+            _enabled = Preferences.AutoDisable.Value;
             SetupBonemenu();
         }
         
@@ -36,7 +36,7 @@ namespace VignetteRemover
                 _vignetteObj = playerHead.FindChild("Vignetter(Clone)").gameObject;
                 if (_enabled && _vignetteObj != null)
                 {
-                    ModConsole.Msg("Vignette found, disabling.", LoggingMode.DEBUG);
+                    ModConsole.Msg("Vignette found, disabling.", 1);
                     _vignetteObj.SetActive(false);
                 }
                 else
@@ -49,27 +49,27 @@ namespace VignetteRemover
         {
             MenuCategory mainCat = MenuManager.CreateCategory("Weather Electric", "#6FBDFF");
             MenuCategory menuCategory = mainCat.CreateCategory("Vignette Remover", Color.red);
-            menuCategory.CreateBoolElement("Toggle Autodisable", Color.white, Preferences.AutoDisable.entry.Value, OnBoolChanged);
+            menuCategory.CreateBoolElement("Toggle Autodisable", Color.white, Preferences.AutoDisable.Value, OnBoolChanged);
             menuCategory.CreateFunctionElement("Enable Vignette", Color.green, Enable);
             menuCategory.CreateFunctionElement("Disable Vignette", Color.red, Disable);
         }
 
         private static void Enable()
         {
-            ModConsole.Msg("Enabling vignette.", LoggingMode.DEBUG);
+            ModConsole.Msg("Enabling vignette.", 1);
             _vignetteObj.SetActive(true);
         }
 
         private static void Disable()
         {
-            ModConsole.Msg("Disabling vignette.", LoggingMode.DEBUG);
+            ModConsole.Msg("Disabling vignette.", 1);
             _vignetteObj.SetActive(false);
         }
         
         private static void OnBoolChanged(bool value)
         {
             _enabled = value;
-            Preferences.AutoDisable.entry.Value = value;
+            Preferences.AutoDisable.Value = value;
             Preferences.OwnCategory.SaveToFile(false);
         }
     }
