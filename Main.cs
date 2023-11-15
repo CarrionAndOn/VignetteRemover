@@ -21,6 +21,7 @@ namespace VignetteRemover
         private static GameObject _vignetteObj;
         public override void OnInitializeMelon()
         {
+            ModConsole.Setup(LoggerInstance);
             Preferences.Setup();
             _enabled = Preferences.AutoDisable;
             SetupBonemenu();
@@ -33,15 +34,20 @@ namespace VignetteRemover
             {
                 var playerHead = Player.playerHead;
                 _vignetteObj = playerHead.FindChild("Vignetter(Clone)").gameObject;
-                if (_enabled)
+                if (_enabled && _vignetteObj != null)
                 {
+                    ModConsole.Msg("Vignette found, disabling.", LoggingMode.DEBUG);
                     _vignetteObj.SetActive(false);
+                }
+                else
+                {
+                    ModConsole.Error("Vignette not found!");
                 }
             }
         }
         private static void SetupBonemenu()
         {
-            MenuCategory mainCat = MenuManager.CreateCategory("Weather Electric", "6FBDFF");
+            MenuCategory mainCat = MenuManager.CreateCategory("Weather Electric", "#6FBDFF");
             MenuCategory menuCategory = mainCat.CreateCategory("Vignette Remover", Color.red);
             menuCategory.CreateBoolElement("Toggle Autodisable", Color.white, Preferences.AutoDisable.entry.Value, OnBoolChanged);
             menuCategory.CreateFunctionElement("Enable Vignette", Color.green, Enable);
@@ -50,11 +56,13 @@ namespace VignetteRemover
 
         private static void Enable()
         {
+            ModConsole.Msg("Enabling vignette.", LoggingMode.DEBUG);
             _vignetteObj.SetActive(true);
         }
 
         private static void Disable()
         {
+            ModConsole.Msg("Disabling vignette.", LoggingMode.DEBUG);
             _vignetteObj.SetActive(false);
         }
         
@@ -62,7 +70,7 @@ namespace VignetteRemover
         {
             _enabled = value;
             Preferences.AutoDisable.entry.Value = value;
-            Preferences.Category.SaveToFile(false);
+            Preferences.OwnCategory.SaveToFile(false);
         }
     }
 }
