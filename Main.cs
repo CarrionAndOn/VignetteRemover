@@ -14,7 +14,7 @@ namespace VignetteRemover
         internal const string Description = "Gives you the ability to remove the damage vignette.";
         internal const string Author = "SoulWithMae";
         internal const string Company = "Weather Electric";
-        internal const string Version = "1.0.3";
+        internal const string Version = "1.0.4";
         internal const string DownloadLink = "null";
 
         private static bool _enabled;
@@ -32,15 +32,19 @@ namespace VignetteRemover
         {
             public static void Postfix(Player_Health __instance)
             {
-                _vignetteObj = Player.controllerRig.transform.FindChild("TrackingSpace/Head/Vignetter(Clone)").gameObject;
+                _vignetteObj = __instance.Vignetter;
                 if (_enabled && _vignetteObj != null)
                 {
                     ModConsole.Msg("Vignette found, disabling.", 1);
                     _vignetteObj.SetActive(false);
                 }
-                else
+                else if (_vignetteObj == null)
                 {
                     ModConsole.Error("Vignette not found!");
+                }
+                else
+                {
+                    ModConsole.Msg("Auto disable is off, not disabling vignette.", 1);
                 }
             }
         }
